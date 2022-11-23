@@ -1,0 +1,115 @@
+;; -*- mode: emacs-lisp; coding: emacs-mule; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Sat Jul  6 15:02:17 2019
+;; Desktop file format version 208
+;; Emacs version 25.2.2
+
+;; Global section:
+(setq desktop-saved-frameset [frameset 1 (23840 3897 525133 325000) (desktop . "208") "awillig@ratibor" nil nil ((((font-backend xft x) (font . "-PfEd-DejaVu Sans Mono-normal-normal-normal-*-11-*-*-*-m-0-iso10646-1") (font-parameter . "DejaVu Sans Mono-8") (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars . right) (horizontal-scroll-bars) (foreground-color . "white") (background-color . "DarkBlue") (mouse-color . "black") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 1) (right-fringe . 8) (scroll-bar-foreground) (scroll-bar-background) (menu-bar-lines . 1) (tool-bar-lines . 0) (title) (wait-for-wm . t) (tool-bar-position . top) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 0) (alpha) (fullscreen) (display-type . color) (background-mode . light) (cursor-color . "#A7A7A7") (sticky) (environment) (fringe) (frameset--id . "93B1-79FE-3D21-3309") (frameset--mini t . t) (modeline . t) (minibuffer . t) (unsplittable) (icon-name) (visibility . t) (display . ":0") (explicit-name) (height . 82) (width . 127) (left . 1595) (top . 19)) ((min-height . 8) (min-width . 10) (min-height-ignore . 8) (min-width-ignore . 6) (min-height-safe . 2) (min-width-safe . 2) (min-pixel-height . 112) (min-pixel-width . 70) (min-pixel-height-ignore . 112) (min-pixel-width-ignore . 42) (min-pixel-height-safe . 28) (min-pixel-width-safe . 14)) vc (pixel-width . 914) (pixel-height . 1134) (total-width . 131) (total-height . 81) (normal-height . 1.0) (normal-width . 1.0) (combination-limit) (leaf (pixel-width . 914) (pixel-height . 560) (total-width . 131) (total-height . 40) (normal-height . 0.49411764705882355) (normal-width . 1.0) (buffer "NeighborTable.cc" (selected . t) (hscroll . 0) (fringes 1 8 nil) (margins nil) (scroll-bars nil 3 t nil 0 t) (vscroll . 0) (dedicated) (point . 5147) (start . 5007))) (leaf (last . t) (pixel-width . 914) (pixel-height . 574) (total-width . 131) (total-height . 41) (normal-height . 0.5058823529411764) (normal-width . 1.0) (buffer "NeighborTable.h" (selected) (hscroll . 0) (fringes 1 8 nil) (margins nil) (scroll-bars nil 3 t nil 0 t) (vscroll . 0) (dedicated) (point . 3307) (start . 2380)))))])
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring '("Beacon" "maca" "Mac" "cleanupT" "recordBea" "setE"))
+(setq regexp-search-ring nil)
+(setq register-alist nil)
+(setq file-name-history '("~/omnetpp-5.5/workspace/SwarmStack/src/base/PacketLossEstimator.h" "~/omnetpp-5.5/workspace/SwarmStack/src/beaconinglayer/BeaconingProtocolBase.cc" "~/omnetpp-5.5/workspace/SwarmStack/src/beaconinglayer/BeaconingProtocolBase.h" "~/omnetpp-5.5/workspace/SwarmStack/src/base/NeighborTable.h"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 208
+  "/home/awillig/omnetpp-5.5/workspace/SwarmStack/src/base/NeighborTable.cc"
+  "NeighborTable.cc"
+  'c++-mode
+  '(abbrev-mode helm-mode)
+  5147
+  '(5139 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix))
+  '((mark-ring (5122 5162 5091 941 875 3564 3473 3817 3161 3109 3229 2910 5191 1614 1338 1074))))
+
+(desktop-create-buffer 208
+  "/home/awillig/omnetpp-5.5/workspace/SwarmStack/src/base/NeighborTable.h"
+  "NeighborTable.h"
+  'c-mode
+  '(abbrev-mode helm-mode)
+  3307
+  '(3283 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix))
+  '((mark-ring (2892 264 2568 482 508 685 688 3239 1897 2183 1866 2305 921 279 3438 3387))))
+
+(desktop-create-buffer 208
+  "/home/awillig/omnetpp-5.5/workspace/SwarmStack/src/base/BeaconingBase.h"
+  "BeaconingBase.h"
+  'c-mode
+  '(abbrev-mode helm-mode)
+  396
+  '(379 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . iso-latin-1-unix))
+  '((mark-ring (115 90))))
+
+(desktop-create-buffer 208
+  "/home/awillig/omnetpp-5.5/workspace/SwarmStack/src/base/NeighborTable.ned"
+  "NeighborTable.ned"
+  'fundamental-mode
+  '(helm-mode)
+  398
+  '(396 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . iso-latin-1-unix))
+  '((mark-ring (359 325 102 83 20 1 398))))
+
+(desktop-create-buffer 208
+  "/home/awillig/omnetpp-5.5/workspace/SwarmStack/src/base/PacketLossEstimator.h"
+  "PacketLossEstimator.h"
+  'c-mode
+  '(abbrev-mode helm-mode)
+  1058
+  '(1785 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix))
+  '((mark-ring (1356 1208 626 486 1530 1513 1058))))
+
+(desktop-create-buffer 208
+  "/home/awillig/omnetpp-5.5/workspace/SwarmStack/src/beaconinglayer/BeaconingProtocolBase.cc"
+  "BeaconingProtocolBase.cc"
+  'c++-mode
+  '(abbrev-mode helm-mode)
+  9128
+  '(8869 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix))
+  '((mark-ring (9130 1491 2615 1 9128))))
+
+(desktop-create-buffer 208
+  "/home/awillig/omnetpp-5.5/workspace/SwarmStack/src/beaconinglayer/BeaconingProtocolBase.h"
+  "BeaconingProtocolBase.h"
+  'c-mode
+  '(abbrev-mode helm-mode)
+  1567
+  '(974 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/awillig/omnetpp-5.5/workspace/SwarmStack/src/base/PacketLossEstimator.cc"
+  "PacketLossEstimator.cc"
+  'c++-mode
+  '(abbrev-mode helm-mode)
+  845
+  '(816 nil)
+  nil
+  nil
+  '((buffer-file-coding-system . undecided-unix))
+  '((mark-ring (825 715 661 805))))
+

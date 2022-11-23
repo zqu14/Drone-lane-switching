@@ -1,0 +1,212 @@
+/*
+ * Flooding.cc
+ *
+ *  Created on: Oct 1, 2020
+ *      Author: awillig
+ */
+
+
+#include <inet/common/IProtocolRegistrationListener.h>
+#include <inet/common/ModuleAccess.h>
+#include <flooding/FloodingHeader_m.h>
+#include <flooding/Flooding.h>
+#include <base/SwarmStackBase.h>
+#include <cassert>
+#include <sstream>
+
+/*
+ * TODO:
+ */
+
+// =======================================================================
+
+Define_Module(Flooding);
+
+const inet::Protocol floodingProtocol("flooding","Flooding protocol based on LBP");
+
+const uint16_t  FLOODING_MAGICNO  =  0x4711;
+const uint16_t  FLOODING_VERSION  =  0x0001;
+const uint16_t  FLOODING_TTL_INIT =  0xFFFF;
+
+
+
+// =======================================================================
+// =======================================================================
+
+using namespace inet;
+
+
+
+// =======================================================================
+// =======================================================================
+
+Flooding::Flooding ()
+    : packetQueue("flooding packet queue")
+{
+    debugMsgPrefix = "Flooding";
+    sequenceNumber = 0;
+    currentPacket  = nullptr;
+}
+
+// -------------------------------------------
+
+const inet::Protocol& Flooding::getProtocol(void) const
+{
+    return floodingProtocol;
+}
+
+// -------------------------------------------
+
+void Flooding::initialize(int stage)
+{
+    enter("initialize");
+
+    LBPClientBase::initialize(stage);
+
+    if (stage == INITSTAGE_LOCAL)
+    {
+        readParameters();
+        gidFromHigher  =  findGate("fromHigher");
+        gidToHigher    =  findGate("toHigher");
+    }
+
+    if (stage == INITSTAGE_LAST)
+    {
+        registerProtocol(floodingProtocol, gate("toLBP"), nullptr);
+        registerService(floodingProtocol, nullptr, gate("fromLBP"));
+
+    }
+    leave("initialize");
+}
+
+// -------------------------------------------
+
+void Flooding::readParameters ()
+{
+    enter("readParameters");
+    numRepetitions      =   par("numRepetitions");
+    floodingHeaderSize  =   par("floodingHeaderSize");
+    leave("readParameters");
+}
+
+// -------------------------------------------
+
+bool Flooding::headerWellFormed (const FloodingHeader* header)
+{
+    enter("headerWellFormed");
+    assert(header);
+    return    (header->getMagicNo() == FLOODING_MAGICNO)
+           && (header->getFloodingVersion() == FLOODING_VERSION);
+}
+
+// -------------------------------------------
+
+inet::Ptr<FloodingHeader> Flooding::composeHeader (void)
+{
+    enter ("composeHeader");
+    auto fheader = makeShared<FloodingHeader>();
+    assert(fheader);
+    fheader->setMagicNo(FLOODING_MAGICNO);
+    fheader->setFloodingVersion(FLOODING_VERSION);
+    fheader->setTimeToLive(FLOODING_TTL_INIT);
+    fheader->setSeqno(sequenceNumber);
+    fheader->setSourceId(ownIdentifier);
+    fheader->setChunkLength(B(floodingHeaderSize));
+
+    sequenceNumber++;
+
+    leave("composeHeader");
+
+    return fheader;
+}
+
+// -------------------------------------------
+
+void Flooding::handleOtherMessage(cMessage* msg)
+{
+    enter("handleOtherMessage");
+    if (dynamic_cast<Packet *>(msg)  &&  (msg->arrivedOn(gidFromHigher)))
+    {
+        // got a new packet to flood from higher layers, i.e. I am the source
+        // put the flooding header on it and put it in the queue
+
+        Packet*  packet   = (Packet*) msg;
+        auto     fheader  = composeHeader();
+        assert(fheader);
+        packet->insertAtFront(fheader);
+
+        packetQueue.insert(packet);
+        workOnPacketQueue();
+
+        leave("handleOtherMessage");
+
+        return;
+    }
+
+    error("Flooding::handleOtherMessage: unknown message type");
+}
+
+
+// -------------------------------------------
+
+void Flooding::handleReceivedBroadcast(Packet* packet)
+{
+    enter("handleReceivedBroadcast");
+    assert(packet);
+
+    // first header must be a flooding header
+    const auto& fheader = packet->popAtFront<FloodingHeader>();
+    if (!fheader)
+    {
+        error("Flooding::handleReceivedBroadcast: received packet does not have a flooding header");
+    }
+
+    MacAddress    srcid = fheader->getSourceId();
+    uint32_t      seqno = fheader->getSeqno();
+    uint16_t      ttl   = fheader->getTimeToLive();
+
+    auto it       =  lastSeen.find(srcid);
+    bool found    =  it != lastSeen.end();
+
+    // output some debug data about the received packet
+    std::stringstream ss;
+    ss << "handleReceivedBroadcast: got flooding packet with src = " << srcid
+       << ", seqno = " << seqno
+       << ", and ttl = " << ttl
+       << ", map contents is " << found
+       << (found ? (lastSeen[srcid]) : -1 );
+    debugMsg(ss.str());
+
+
+    // check whether we have already received this
+    if (found  &&  (lastSeen[srcid] >= seqno))
+    {
+        debugMsg("handleReceivedBroadcast: I have already seen this, dropping it and stop");
+        delete packet;
+        leave("handleReceivedBroadcast");
+        return;
+    }
+
+    // update map of already seen requests
+    lastSeen[srcid] = seqno;
+
+    // hand over payload to higher layers
+    send(packet, gidToHigher);
+
+    // check whether TTL permits further propagation of the packet
+    if (ttl <= 0)
+    {
+        debugMsg("handleReceivedBroadcast: TTL is zero, stopping further propagation");
+        delete packet;
+        leave("handleReceivedBroadcast");
+        return;
+    }
+
+    // put header back on, then add packet to the end of queue and trigger further work on the queue
+    fheader->setTimeToLive(ttl-1);
+    packet->insertAtFront(fheader);
+    packetQueue.insert(packet);
+    workOnPacketQueue()
+
+    leave("handleReceivedBroadcast");
+}
