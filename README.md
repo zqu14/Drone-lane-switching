@@ -1,3 +1,9 @@
+#### Introduction
+
+This repository is used for publishing the source code of the paper "Sensorless and Coordination-Free Lane Switching on a Drone
+Road Segment – A Simulation Study".
+
+
 #### Dependency Version
 | Dependency | Value |
 | --------- | -----:|
@@ -9,7 +15,7 @@
 #### Key Files
 `src/RenewalGenerating.ned` The simualtion network.
 
-`simulations/omnetpp.ini` The configuration file. To run the whole 1680 simualtions, use [Config s1].
+`simulations/omnetpp.ini` The configuration file.
 
 `src/arrivalCheck/arrivalChecker.cc` Used to detect the arrivals and collisions, and record collision data.
 
