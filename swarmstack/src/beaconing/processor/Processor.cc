@@ -338,8 +338,8 @@ void Processor::setOvertakeParam(Coord lane)
     //overtakeVelocity.z = sqrt(x_z_velocity / (1+(pow(n.x,2)/pow(n.z,2))));
     overtakeVelocity.x = x_z_velocity * n.x;
     overtakeVelocity.z = x_z_velocity * n.z;
-    if (n.x < 0) overtakeVelocity.x *= -1;
-    if (n.z < 0) overtakeVelocity.z *= -1;
+    //if (n.x < 0) overtakeVelocity.x *= -1;
+    //if (n.z < 0) overtakeVelocity.z *= -1;
     double arriveTime;
     if (overtakeVelocity.x != 0) {
         arriveTime = x / overtakeVelocity.x;
