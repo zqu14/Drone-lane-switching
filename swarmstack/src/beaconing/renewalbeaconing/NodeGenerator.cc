@@ -160,7 +160,7 @@ void NodeGenerator::generate(int index) {
 
         // estimate the next collision time, if this time is too short, drop this generation
         double lastDronePosition = (simTime().dbl()-thisLaneLastSpwanTime) * thisLaneLastSpwanSpeed;
-        double collisionTime = lastDronePosition / (preferredSpeed-thisLaneLastSpwanSpeed);
+        double collisionTime = (lastDronePosition-0.5) / (preferredSpeed-thisLaneLastSpwanSpeed);
 
         //std::cout << "     here end generate  " << simTime() << "   "<< index << endl;
 
